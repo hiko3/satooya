@@ -6,3 +6,21 @@
 
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
+
+.album {
+  background-color: #eee8aa;
+}
+
+.input-group-text {
+  border: 2px solid #1b4b72;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b4b72;
+}
+
+.nav-pills .nav-link:hover {
+  border-color: #1b4b72; 
+}

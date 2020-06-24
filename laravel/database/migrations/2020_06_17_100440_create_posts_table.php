@@ -17,9 +17,13 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->integer('user_id');
             $table->integer('tag_category_id');
+            $table->integer('prefecture_id');
             $table->string('title');
             $table->text('content');
             $table->string('image')->nullable();
+            $table->string('gender');
+            $table->string('recruit_status');
+            $table->date('deadline_date');
             $table->timestamps();
             $table->softDeletes();
         });

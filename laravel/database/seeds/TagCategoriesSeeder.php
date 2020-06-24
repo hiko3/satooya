@@ -20,10 +20,16 @@ class TagCategoriesSeeder extends Seeder
                 'name' => '猫',
             ],
             [
-                'name' => 'ハムスター',
+                'name' => '小動物',
             ],
             [
-                'name' => 'カメ',
+                'name' => '魚',
+            ],
+            [
+                'name' => '鳥',
+            ],
+            [
+                'name' => '爬虫類',
             ],
             [
                 'name' => 'その他',

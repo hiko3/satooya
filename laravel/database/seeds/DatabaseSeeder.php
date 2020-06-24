@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             UsersTableSeeder::class,
             PostsTableSeeder::class,
             TagCategoriesSeeder::class,
+            PrefecturesSeeder::class
         ]);
     }
 }
