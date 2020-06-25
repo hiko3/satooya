@@ -15,4 +15,10 @@ $(function() {
     $('#' + categoryId).addClass("active");
   }
 
+  
+    $('#js-multiple').select2({
+      placeholder: "都道府県を選択",
+    });
+
+
 });

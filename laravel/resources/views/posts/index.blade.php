@@ -31,8 +31,7 @@
             <div class="input-group-prepend">
               <div class="input-group-text bg-transparent mr-1">募集対象地域</div>
             </div>
-            <select name="prefecture_id" class="form-control">
-              <option value="0">すべて</option>
+            <select name="prefectures[]" class="form-control" id="js-multiple" multiple="multiple">
               @foreach ($prefectureList as $index => $name)
                 <option value="{{ $index }}" @if(old('prefecture_id') == $index) selected @endif>{{ $name }}</option>
               @endforeach
@@ -70,7 +69,9 @@
               <div class="card-body">
                 <h5 class="card-title">{{ Str::limit($post->title, 20) }}</h5>
                 <p class="small">{{ $post->tagCategory->name }}</p>
-                <p class="small">{{ $post->prefecture->name }}</p>
+                @foreach ($post->prefectures as $prefecture)
+                  <p class="small">{{ $prefecture->name }}</p>
+                @endforeach
                   <a href="{{ route('post.show', $post->id) }}" class="btn btn-sm btn-outline-secondary stretched-link mt-2">見る</a>
                 <p class="small">掲載期限 : {{ $post->deadline_date }}</p>
                 <p class="small">募集状況 : {{ $post->recruit_status }}</p>

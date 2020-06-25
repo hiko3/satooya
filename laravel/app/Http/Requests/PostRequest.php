@@ -28,7 +28,6 @@ class PostRequest extends FormRequest
             'content'         => 'required|max:1000',
             'image'           => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tag_category_id' => 'required|exists:tag_categories,id,deleted_at,NULL',
-            'prefecture_id'   => 'required',
         ];
     }
 

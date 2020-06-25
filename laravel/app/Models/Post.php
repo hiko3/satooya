@@ -9,7 +9,6 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'tag_category_id',
-        'prefecture_id',
         'title',
         'content',
         'image',
@@ -25,8 +24,12 @@ class Post extends Model
         return $this->belongsTo(TagCategory::class);
     }
 
-    public function prefecture() {
-        return $this->belongsTo(Prefecture::class);
+    // public function prefecture() {
+    //     return $this->belongsTo(Prefecture::class);
+    // }
+
+    public function prefectures() {
+        return $this->belongsToMany(Prefecture::class, 'post_prefectures', 'post_id', 'prefecture_id');
     }
 
     /**
@@ -47,15 +50,24 @@ class Post extends Model
      * 募集対象地域検索
      *
      * @param mixed $query
-     * @param int $prefectureId
+     * @param mixed $prefectureId
      * @return Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearchPrefecture($query, $prefectureId)
     {
-        if (!empty($prefectureId)) {
-            return $query->where('prefecture_id', $prefectureId);
-        }
+        // if (!empty($prefectureId)) {
+
+        //     return $query->whereIn('prefecture_id', $prefectureId)
+        //                 ->orWhereRaw("FIND_IN_SET(?, prefecture_id)", [$prefectureId]);
+        // }
+        // if (!empty($prefectureId)) {
+        //     $query->whereHas('prefectures', function($query) use ($prefectureId) {
+        //         return $query->where('prefecture_id', $prefectureId);
+        //     });
+        
     }
+
+
 
     /**
      * 募集状況検索
@@ -101,11 +113,11 @@ class Post extends Model
     public function getIndexPost($searches)
     {
         return $this->searchCategory($searches['tag_category_id'] ?? '')
-                    ->searchPrefecture($searches['prefecture_id'] ?? '')
+                    // ->searchPrefecture($searches['prefecture_id'] ?? '')
                     ->searchRecruitState($searches['recruit_status'] ?? '')
                     ->searchGender($searches['gender'] ?? '')
-                    ->searchKeyword($searches['title'] ?? '')
-                    ->orderBy('updated_at', 'desc')
-                    ->paginate(self::PAGINATE_NUM);
+                    ->searchKeyword($searches['title'] ?? '');
+                    // ->orderBy('updated_at', 'desc')
+                    // ->paginate(self::PAGINATE_NUM);
     }
 }

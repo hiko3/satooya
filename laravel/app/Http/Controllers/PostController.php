@@ -31,9 +31,19 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $searches = $request->only(
-            ['tag_category_id', 'prefecture_id', 'recruit_status', 'gender', 'title']
+            ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title']
         );
-        $posts = $this->post->getIndexPost($searches);
+        $prefectures = ($searches['prefectures'] ?? '');
+
+        if (!empty($prefectures)) {
+            $posts = $this->post->getIndexPost($searches)
+                                ->whereHas('prefectures', function($query) use ($prefectures) {
+                                    $query->whereIn('prefecture_id', $prefectures);
+                                })->orderBy('updated_at', 'desc')->paginate(20);
+        } else {
+            $posts = $this->post->getIndexPost($searches)->orderBy('updated_at', 'desc')->paginate(20);
+        }
+
         $categories = $this->category->all();
         $prefectureList = $this->prefecture->pluck('name', 'id');
         $request->flash();
@@ -61,10 +71,12 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $inputs = $request->all();
+        // $inputs['prefecture_id'] = implode(',', $inputs['prefecture_id']);
         $inputs['user_id'] = Auth::id();
         $inputs['image'] = $request->file('image')->hashName();
         $request->file('image')->store('/public/images');
-        $this->post->fill($inputs)->save();
+        $post = $this->post->create($inputs);
+        $post->prefectures()->attach($request->input('prefectures'));
         return redirect()->route('post.index')->with('flash_message', '投稿が完了しました');
     }
 

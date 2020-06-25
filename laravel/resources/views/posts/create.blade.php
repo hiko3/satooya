@@ -43,8 +43,8 @@
         </select>
       </div>
       <div class="form-group col-sm-6 @error('prefecture') is-invalid @enderror">
-        <label for="tag-category">現在所在地</label>
-        <select class="form-control" name="prefecture_id" aria-multiselectable="true">
+        <label for="tag-category">募集対象地域</label>
+        <select class="form-control" id="js-multiple" name="prefectures[]" multiple="multiple">
           <option value="" style="display: none;">選択してください</option>
           @foreach ($prefectureList as $index => $name)
             <option value="{{ $index }}">{{ $name }}</option>
