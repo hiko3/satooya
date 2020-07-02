@@ -28,6 +28,10 @@ class PostRequest extends FormRequest
             'content'         => 'required|max:1000',
             'image'           => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tag_category_id' => 'required|exists:tag_categories,id,deleted_at,NULL',
+            'gender'          => 'required|exists:posts',
+            'recruit_status'  => 'required|exists:posts',
+            'prefectures'     => 'required|exists:post_prefectures,prefecture_id',
+            'deadline_date'   => 'required|date|before:1 years|after:today'
         ];
     }
 
@@ -37,7 +41,9 @@ class PostRequest extends FormRequest
             'required'                 => '入力必須の項目です',
             'max'                      => ':max文字以内で入力してください',
             'image'                    => '画像ファイル以外はアップロードできません',
-            'exists'   => 'カテゴリーを選択してください',
+            'exists'                   => '存在しない項目です',
+            'before'                   => '1年以内の日付を入力してください',
+            'after'                    => '明日以降の日付を入力してください'
         ];
     }
 }

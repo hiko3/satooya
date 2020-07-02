@@ -21,6 +21,12 @@ class PostController extends Controller
         $this->post = $post;
         $this->category = $category;
         $this->prefecture = $prefecture;
+
+        $posts = $this->post->all();
+        foreach($posts as $post) {
+            $post->where('deadline_date', date('Y-m-d'))
+                ->update(['recruit_status' => "募集終了"]);
+        }
     }
 
     /**
@@ -31,23 +37,17 @@ class PostController extends Controller
     public function index(Request $request)
     {
         $searches = $request->only(
-            ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title']
+            ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title', 'sort']
         );
         $prefectures = ($searches['prefectures'] ?? '');
-
-        if (!empty($prefectures)) {
-            $posts = $this->post->getIndexPost($searches)
-                                ->whereHas('prefectures', function($query) use ($prefectures) {
-                                    $query->whereIn('prefecture_id', $prefectures);
-                                })->orderBy('updated_at', 'desc')->paginate(20);
-        } else {
-            $posts = $this->post->getIndexPost($searches)->orderBy('updated_at', 'desc')->paginate(20);
-        }
-
+        $posts = $this->post->getSearchIndexPost($searches, $prefectures);
+        $postCount = $this->post->all()->count();
         $categories = $this->category->all();
         $prefectureList = $this->prefecture->pluck('name', 'id');
         $request->flash();
-        return view('posts.index', compact('posts', 'categories', 'prefectureList'));
+        return view('posts.index', compact(
+            'posts', 'postCount', 'categories', 'prefectureList'
+        ));
     }
 
     /**
@@ -71,7 +71,6 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $inputs = $request->all();
-        // $inputs['prefecture_id'] = implode(',', $inputs['prefecture_id']);
         $inputs['user_id'] = Auth::id();
         $inputs['image'] = $request->file('image')->hashName();
         $request->file('image')->store('/public/images');

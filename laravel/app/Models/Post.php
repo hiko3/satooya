@@ -24,10 +24,6 @@ class Post extends Model
         return $this->belongsTo(TagCategory::class);
     }
 
-    // public function prefecture() {
-    //     return $this->belongsTo(Prefecture::class);
-    // }
-
     public function prefectures() {
         return $this->belongsToMany(Prefecture::class, 'post_prefectures', 'post_id', 'prefecture_id');
     }
@@ -45,29 +41,6 @@ class Post extends Model
             return $query->where('tag_category_id', $categoryId);
         }
     }
-
-    /**
-     * 募集対象地域検索
-     *
-     * @param mixed $query
-     * @param mixed $prefectureId
-     * @return Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeSearchPrefecture($query, $prefectureId)
-    {
-        // if (!empty($prefectureId)) {
-
-        //     return $query->whereIn('prefecture_id', $prefectureId)
-        //                 ->orWhereRaw("FIND_IN_SET(?, prefecture_id)", [$prefectureId]);
-        // }
-        // if (!empty($prefectureId)) {
-        //     $query->whereHas('prefectures', function($query) use ($prefectureId) {
-        //         return $query->where('prefecture_id', $prefectureId);
-        //     });
-        
-    }
-
-
 
     /**
      * 募集状況検索
@@ -97,10 +70,33 @@ class Post extends Model
         }
     }
 
+    /**
+     * キーワード検索
+     *
+     * @param [type] $query
+     * @param [type] $keyword
+     * @return void
+     */
     public function scopeSearchKeyword($query, $keyword)
     {
         if (!empty($keyword)) {
             return $query->where('title', 'LIKE', '%'.$keyword.'%');
+        }
+    }
+
+    /**
+     * ソート
+     *
+     * @param [type] $query
+     * @param [type] $sort
+     * @return void
+     */
+    public function scopeSortPosts($query, $sort)
+    {
+        if ($sort === 'new') {
+            return $query->orderBy('created_at', 'desc');
+        } else {
+            return $query->orderBy('deadline_date', 'asc');
         }
     }
 
@@ -110,14 +106,31 @@ class Post extends Model
      * @param array $searches
      * @return Illuminate\Pagination\LengthAwarePaginator
      */
-    public function getIndexPost($searches)
+    public function getSearchIndexPost($searches, $prefectures)
     {
-        return $this->searchCategory($searches['tag_category_id'] ?? '')
-                    // ->searchPrefecture($searches['prefecture_id'] ?? '')
-                    ->searchRecruitState($searches['recruit_status'] ?? '')
-                    ->searchGender($searches['gender'] ?? '')
-                    ->searchKeyword($searches['title'] ?? '');
-                    // ->orderBy('updated_at', 'desc')
-                    // ->paginate(self::PAGINATE_NUM);
+        if (!empty($prefectures)) {
+            return $this->whereHas('prefectures', function($query) use ($prefectures) {
+                            $query->whereIn('prefecture_id', $prefectures);
+                        })
+                        ->searchCategory($searches['tag_category_id'] ?? '')
+                        ->searchRecruitState($searches['recruit_status'] ?? '')
+                        ->searchGender($searches['gender'] ?? '')
+                        ->searchKeyword($searches['title'] ?? '')
+                        ->sortPosts($searches['sort'] ?? '')
+                        ->paginate(self::PAGINATE_NUM);
+        } 
+        else {
+            return $this->searchCategory($searches['tag_category_id'] ?? '')
+                        ->searchRecruitState($searches['recruit_status'] ?? '')
+                        ->searchGender($searches['gender'] ?? '')
+                        ->searchKeyword($searches['title'] ?? '')
+                        ->sortPosts($searches['sort'] ?? '')
+                        ->paginate(self::PAGINATE_NUM);
+        }
+    }
+
+    public function getIndexPost()
+    {
+        
     }
 }

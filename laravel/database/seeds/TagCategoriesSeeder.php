@@ -29,10 +29,7 @@ class TagCategoriesSeeder extends Seeder
                 'name' => '鳥',
             ],
             [
-                'name' => '爬虫類',
-            ],
-            [
-                'name' => 'その他',
+                'name' => '爬虫類・他',
             ],
         ]);
     }

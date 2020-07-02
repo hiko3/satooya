@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
             PostsTableSeeder::class,
             TagCategoriesSeeder::class,
             PrefecturesSeeder::class,
-            PostPrefecturesSeeder::class
+            PostPrefecturesSeeder::class,
+            PetTypesSeeder::class,
         ]);
     }
 }

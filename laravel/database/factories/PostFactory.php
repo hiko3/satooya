@@ -7,8 +7,8 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
-        'title'             => $faker->title,
-        'content'           => $faker->text,
+        'title'             => $faker->word,
+        'content'           => $faker->sentence,
         // 'image'             => $faker->imageUrl($width='200', $height='200', 'animals', true),
         'tag_category_id'   => rand(1, 7),
         // 'prefecture_id'     => rand(1, 47),
