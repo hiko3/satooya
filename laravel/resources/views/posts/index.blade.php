@@ -75,7 +75,7 @@
               @endif
               <div class="card-body">
                 <h5 class="card-title">{{ Str::limit($post->title, 20) }}</h5>
-                <p class="small">{{ $post->tagCategory->name }}</p>
+                <p class="small">{{ $post->subCategory->name ?? '' }}</p>
                 <p class="small">募集地域 : 
                 @foreach ($post->prefectures as $prefecture)
                 @if (!$loop->first)

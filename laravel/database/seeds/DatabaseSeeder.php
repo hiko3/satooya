@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Post_Prefecture;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -18,7 +17,7 @@ class DatabaseSeeder extends Seeder
             TagCategoriesSeeder::class,
             PrefecturesSeeder::class,
             PostPrefecturesSeeder::class,
-            PetTypesSeeder::class,
+            SubCategoriesSeeder::class,
         ]);
     }
 }

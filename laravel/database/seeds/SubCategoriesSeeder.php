@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class PetTypesSeeder extends Seeder
+class SubCategoriesSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,7 +11,7 @@ class PetTypesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('pet_types')->insert([
+        DB::table('sub_categories')->insert([
             // 犬
             [
                 'tag_category_id' => 1,

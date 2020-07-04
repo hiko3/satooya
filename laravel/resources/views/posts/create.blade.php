@@ -14,13 +14,20 @@
     <div class="form-row">
       <div class="form-group col-sm-6">
         <label for="tag-category">ペットの種類</label>
-        <select class="form-control" name="tag_category_id">
-          <option value="" style="display: none;">選択してください</option>
+        <select class="form-control" name="tag_category_id" id="parent">
+          <option value="" style="display: none;">選択してください(大別)</option>
           @foreach ($categoryList as $index => $name)
             <option value="{{ $index }}">{{ $name }}</option>
           @endforeach
         </select>
         @error('tag_category_id')
+          <span class="alert-danger">{{ $message }}</span>  
+        @enderror
+        {{-- ペットの詳細な種類 --}}
+        <select class="form-control" name="sub_category_id" id="children" >
+          <option value="">選択してください(小別)</option>
+        </select>
+        @error('sub_category_id')
           <span class="alert-danger">{{ $message }}</span>  
         @enderror
       </div>
@@ -50,7 +57,7 @@
       </div>
       <div class="form-group col-sm-8">
         <label for="js-multiple" style="display: block">募集対象地域
-          <small class="text-muted pl-3">＊＊複数選択可</small>
+          <small class="text-muted pl-3">＊複数選択可</small>
         </label>
         <select class="form-control" id="js-multiple" name="prefectures[]" multiple="multiple">
           <option value="" style="display: none;">選択してください</option>

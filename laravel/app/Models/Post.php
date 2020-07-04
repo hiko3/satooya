@@ -9,6 +9,7 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'tag_category_id',
+        'sub_category_id',
         'title',
         'content',
         'image',
@@ -22,6 +23,10 @@ class Post extends Model
 
     public function tagCategory() {
         return $this->belongsTo(TagCategory::class);
+    }
+
+    public function subCategory() {
+        return $this->belongsTo(SubCategory::class);
     }
 
     public function prefectures() {
@@ -93,10 +98,10 @@ class Post extends Model
      */
     public function scopeSortPosts($query, $sort)
     {
-        if ($sort === 'new') {
-            return $query->orderBy('created_at', 'desc');
-        } else {
+        if ($sort === 'deadline') {
             return $query->orderBy('deadline_date', 'asc');
+        } else {
+            return $query->orderBy('created_at', 'desc');
         }
     }
 

@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', 'PostController@index')->name('post.index');
 Route::get('/create', 'PostController@create')->name('post.create');
 Route::post('/store', 'PostController@store')->name('post.store');
+Route::post('/fetch/category', 'PostController@fetch')->name('post.fetch');
 Route::get('/post/{post_id}', 'PostController@show')->name('post.show');
 
 

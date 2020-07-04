@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PostRequest extends FormRequest
 {
@@ -23,11 +24,18 @@ class PostRequest extends FormRequest
      */
     public function rules()
     {
+        $cateId = $this->input('tag_category_id');
         return [
             'title'           => 'required|max:100',
             'content'         => 'required|max:1000',
             'image'           => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tag_category_id' => 'required|exists:tag_categories,id,deleted_at,NULL',
+            'sub_category_id' => [
+                'required',
+                Rule::exists('sub_categories', 'id')->where(function ($query) use ($cateId) {
+                    $query->where('tag_category_id', $cateId);
+                }),
+            ],
             'gender'          => 'required|exists:posts',
             'recruit_status'  => 'required|exists:posts',
             'prefectures'     => 'required|exists:post_prefectures,prefecture_id',

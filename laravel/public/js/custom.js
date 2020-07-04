@@ -30,18 +30,36 @@ $(function() {
     $('#' + sortId).addClass("active");
   }
 
-  
+  // セレクト2
   $('#js-multiple').select2({
     placeholder: "都道府県を選択",
     width: "resolve"
   });
 
-  $(window).on('resize', function() {
-    $('form-group').each(function() {
-      var formGroup = $(this),
-        formgroupWidth = formGroup.outerWidth();
-      formGroup.find('.select2-container').css('width', formgroupWidth);
-    });
+  // セレクトボックスの連動
+  // カテゴリのselect要素が変更になるとイベントが発生
+  $('#parent').change(function () {
+    var cate_val = $(this).val();
+
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/fetch/category',
+      type: 'POST',
+      data: {'category_val' : cate_val},
+      datatype: 'json',
+    })
+    .done(function(data) {
+      $('#children option').remove();
+      $.each(data, function(key, value) {
+        $('#children').append($('<option>').text(value.name).attr('value', value.id));
+      })
+    })
+    .fail(function() {
+      console.log('失敗');
+    }); 
+    
   });
 
 

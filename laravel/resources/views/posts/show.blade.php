@@ -12,7 +12,7 @@
       <div class="col-md-8">
         <div class="card-body">
         <h5 class="card-title">{{ $post->title }}</h5>
-          <p>ペットの種類 : {{ $post->tagCategory->name }}</p>
+          <p>{{ $post->subCategory->name ?? '' }}</p>
           <p>募集対象地域 : 
             @foreach ($post->prefectures as $prefecture)
             @if (!$loop->first)

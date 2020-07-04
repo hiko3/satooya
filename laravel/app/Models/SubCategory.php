@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class PetType extends Model
+class SubCategory extends Model
 {
     protected $fillable = ['name'];
 
-    protected $table = 'pet_types';
+    protected $table = 'sub_categories';
 }

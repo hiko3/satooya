@@ -10,7 +10,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'title'             => $faker->word,
         'content'           => $faker->sentence,
         // 'image'             => $faker->imageUrl($width='200', $height='200', 'animals', true),
-        'tag_category_id'   => rand(1, 7),
+        'tag_category_id'   => rand(1, 6),
         // 'prefecture_id'     => rand(1, 47),
         'user_id'           => rand(1, 5),
         'gender'            => $faker->randomElement($array = ['オス', 'メス', '全て']),

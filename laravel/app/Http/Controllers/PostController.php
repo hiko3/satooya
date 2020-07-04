@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Post;
 use App\Models\TagCategory;
+use App\Models\SubCategory;
 use App\Models\Prefecture;
 use App\Http\Requests\PostRequest;
 
@@ -13,13 +14,15 @@ class PostController extends Controller
 {
     private $post;
     private $category;
+    private $subCategory;
     private $prefecture;
 
-    public function __construct(Post $post, TagCategory $category, Prefecture $prefecture)
+    public function __construct(Post $post, TagCategory $category, SubCategory $subCategory, Prefecture $prefecture)
     {
         $this->middleware('auth')->except(['index', 'show']);
         $this->post = $post;
         $this->category = $category;
+        $this->subCategory = $subCategory;
         $this->prefecture = $prefecture;
 
         $posts = $this->post->all();
@@ -59,7 +62,22 @@ class PostController extends Controller
     {
         $categoryList = $this->category->pluck('name', 'id');
         $prefectureList = $this->prefecture->pluck('name', 'id');
-        return view('posts.create', compact('categoryList', 'prefectureList'));
+        return view('posts.create', compact(
+            'categoryList', 'prefectureList'));
+    }
+
+    /**
+     * ajaxリクエストを受け取り、サブカテゴリを返す
+     *
+     * @param Request $request
+     * @return json $subCategory
+     */
+    public function fetch(Request $request) {
+        $cateVal = $request['category_val'];
+        $subCategory = $this->subCategory
+                            ->where('tag_category_id', $cateVal)
+                            ->get();
+        return $subCategory;
     }
 
     /**
@@ -71,6 +89,7 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $inputs = $request->all();
+        // dd($inputs);
         $inputs['user_id'] = Auth::id();
         $inputs['image'] = $request->file('image')->hashName();
         $request->file('image')->store('/public/images');
