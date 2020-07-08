@@ -85,7 +85,13 @@ class Post extends Model
     public function scopeSearchKeyword($query, $keyword)
     {
         if (!empty($keyword)) {
-            return $query->where('title', 'LIKE', '%'.$keyword.'%');
+            return $query->where('title', 'LIKE', '%'.$keyword.'%')
+                        ->orWhere('content', 'LIKE', '%'.$keyword.'%')
+                        ->orWhereIn('posts.sub_category_id', function($query) use ($keyword) {
+                            $query->select('id')
+                                ->from('sub_categories')
+                                ->where('name', 'LIKE', '%'.$keyword.'%');
+                        });
         }
     }
 
