@@ -31,16 +31,25 @@
           <span class="alert-danger">{{ $message }}</span>  
         @enderror
       </div>
-      <div class="form-group col-sm-6">
+      <div class="form-group col-sm-6 pl-5">
         <label for="gender">性別</label>
-        <select name="gender" class="form-control">
-          <option value="オス">オス</option>
-          <option value="メス">メス</option>
-          <option value="不明">不明</option>
-        </select>
-        @error('gender')
-          <span class="alert-danger">{{ $message }}</span>
-        @enderror
+        <div class="form-row">
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="gender" value="オス" checked id="custom-radio-1">
+            <label class="custom-control-label" for="custom-radio-1">オス</label>
+          </div>
+          <div class="custom-control custom-radio mx-3">
+            <input type="radio" class="custom-control-input" name="gender" value="メス" id="custom-radio-2">
+            <label class="custom-control-label" for="custom-radio-2">メス</label>
+          </div>
+          <div class="custom-control custom-radio">
+            <input type="radio" class="custom-control-input" name="gender" value="不明" id="custom-radio-3">
+            <label class="custom-control-label" for="custom-radio-3">不明</label>
+          </div>
+          @error('gender')
+            <span class="alert-danger">{{ $message }}</span>
+          @enderror
+        </div>
       </div>
     </div>
     <div class="form-row">

@@ -13,7 +13,7 @@ $factory->define(Post::class, function (Faker $faker) {
         'tag_category_id'   => rand(1, 6),
         // 'prefecture_id'     => rand(1, 47),
         'user_id'           => rand(1, 5),
-        'gender'            => $faker->randomElement($array = ['オス', 'メス', '全て']),
+        'gender'            => $faker->randomElement($array = ['オス', 'メス', '不明']),
         'recruit_status'    => $faker->randomElement($array = ['里親募集中', '里親決定', '募集終了']),
         'deadline_date'     => $faker->dateTimeBetween('now', '1year')->format('Y-m-d'),
     ];

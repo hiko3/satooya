@@ -10964,3 +10964,11 @@ a.text-dark:focus {
   background-color: #fff;
 }
 
+.male-color {
+  color: blue;
+}
+
+.female-color {
+  color: red;
+}
+

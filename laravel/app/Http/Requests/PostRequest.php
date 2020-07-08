@@ -36,9 +36,9 @@ class PostRequest extends FormRequest
                     $query->where('tag_category_id', $cateId);
                 }),
             ],
-            'gender'          => 'required|exists:posts',
+            'gender'          => ['required', 'regex:/(オス|メス|不明)/'],
             'recruit_status'  => 'required|exists:posts',
-            'prefectures'     => 'required|exists:post_prefectures,prefecture_id',
+            'prefectures'     => 'required|exists:prefectures,id',
             'deadline_date'   => 'required|date|before:1 years|after:today'
         ];
     }
@@ -46,12 +46,13 @@ class PostRequest extends FormRequest
     public function messages()
     {
         return [
-            'required'                 => '入力必須の項目です',
-            'max'                      => ':max文字以内で入力してください',
-            'image'                    => '画像ファイル以外はアップロードできません',
-            'exists'                   => '存在しない項目です',
-            'before'                   => '1年以内の日付を入力してください',
-            'after'                    => '明日以降の日付を入力してください'
+            'required'  => '入力必須の項目です',
+            'max'       => ':max文字以内で入力してください',
+            'image'     => '画像ファイル以外はアップロードできません',
+            'exists'    => '存在しない項目です',
+            'regex'     => '不正な入力です',
+            'before'    => '1年以内の日付を入力してください',
+            'after'     => '明日以降の日付を入力してください'
         ];
     }
 }
