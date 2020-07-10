@@ -80,14 +80,15 @@
       </div>
     </div>
     <div class="form-row">
-      <div class="form-group col-xs-6">
+      <div class="form-group col-md-6">
         <label for="file">写真アップロード</label>
-        <p><input type="file" name="image" accept="image/*"></p>
+        <p><input type="file" name="image" accept="image/*" id="myfile"></p>
         @error('image')
           <span class="alert-danger">{{ $message }}</span>
         @enderror
       </div>
-      <div class="form-group col-md-6">
+      <img id="img-prev" style="width:200px;height:200px;" class="">
+      <div class="form-group pt-3">
         <label for="deadline_date">掲載期限
           <small class="text-muted pl-3">1年以内の日付をご指定ください</small>
         </label>

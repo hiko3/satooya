@@ -89,13 +89,39 @@ $(function() {
     }); 
   }
 
+  // 確認ダイアログ
   $('#delete').on('click', function () {
     if (!window.confirm('本当に削除しますか？')) {
       window.alert('キャンセルされました');
       return false;
     }
     document.deleteform.submit();
-  })
+  });
 
+  $('#myfile').on('change', function(e) {
+    // ファイルオブジェクトを取得する
+    var file = e.target.files[0];
+    var reader = new FileReader();
 
+    // 画像でない場合は処理終了
+    if (file.type.indexOf('image') < 0) {
+      alert("画像ファイルを指定してください");
+      return false;
+    }
+
+    // アップロードしたファイルを設定する
+    // FileReaderクラスのonloadプロパディはファイルの読み込みが終わった時に
+    // 呼び出すコールバック関数を保持するプロパティ
+    reader.onload = (function(file) {
+      return function(e) {
+        // ロードされた画像ファイルのData URLスキームは event.target.resultに格納される。src属性にそれを付与
+        $('#img-prev').attr('src', e.target.result);
+        $('#img-prev').attr('title', file.name);
+      }
+    })(file);
+    // 画像読み込みを実行
+    reader.readAsDataURL(file);
+  });
+
+  
 });

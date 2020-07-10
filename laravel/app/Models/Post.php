@@ -139,9 +139,5 @@ class Post extends Model
                         ->paginate(self::PAGINATE_NUM);
         }
     }
-
-    public function getIndexPost()
-    {
-        
-    }
+    
 }

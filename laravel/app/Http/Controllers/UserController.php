@@ -14,7 +14,7 @@ class UserController extends Controller
      */
     public function show($userId)
     {
-        $user = User::find($userId)->first();
-        return view('users.show', compact('user'));
+        $posts = User::find($userId)->posts->sortByDesc('updated_at');
+        return view('users.show', compact('posts'));
     }
 }

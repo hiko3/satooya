@@ -5,7 +5,7 @@
       <div class="mx-3 d-flex flex-column">
         <img src="https://the-kousatu.com/images/profile_image/profile1.jpeg" class="rounded" width="100" height="100">
         <div class="my-3 d-flex flex-column">
-          <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4>
+          {{-- <h4 class="mb-0 font-weight-bold">{{ $user->name }}</h4> --}}
           <span class="text-secondary">&#064;taro</span>
         </div>
       </div>
@@ -21,7 +21,7 @@
     <div class="">
     <div class="items-wrap p-3">
       <div class="row">
-        @foreach ($user->posts as $post)
+        @foreach ($posts as $post)
         <div class="col-md-4">
           <div class="card mb-4 shadow-sm">
             @if (!empty($post->image))
