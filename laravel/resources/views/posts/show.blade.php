@@ -7,12 +7,24 @@
     </div>
     <div class="row no-gutters">
       <div class="col-md-4 p-3">
-        <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200"> 
+        <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">
+        @if ($post->user_id === Auth::id())
+          <a href="{{ route('post.edit', $post->id) }}" class="btn btn-outline-primary btn-block mt-3">編集</a>
+        @endif
       </div>
       <div class="col-md-8">
         <div class="card-body">
         <h5 class="card-title">{{ $post->title }}</h5>
-          <p>{{ $post->subCategory->name ?? '' }}</p>
+          <p>種類 : {{ $post->subCategory->name ?? '' }}</p>
+          <p>雌雄:
+            @if ($post->gender === 'オス')
+                <i class="fas fa-mars male-color"></i>
+            @elseif($post->gender === 'メス')
+                <i class="fas fa-venus female-color"></i>
+            @else
+                不明
+            @endif
+          </p>
           <p>募集対象地域 : 
             @foreach ($post->prefectures as $prefecture)
             @if (!$loop->first)

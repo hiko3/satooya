@@ -67,17 +67,19 @@ class PostController extends Controller
     }
 
     /**
-     * ajaxリクエストを受け取り、サブカテゴリを返す
+     * ajaxリクエストを受け取り、サブカテゴリと、postsテーブルの1レコードを返す
      *
      * @param Request $request
      * @return json $subCategory
      */
     public function fetch(Request $request) {
         $cateVal = $request['category_val'];
+        $postId = $request['post_id'];
+        $post = $this->post->find($postId);
         $subCategory = $this->subCategory
                             ->where('tag_category_id', $cateVal)
                             ->get();
-        return $subCategory;
+        return [$post, $subCategory];
     }
 
     /**
@@ -89,12 +91,11 @@ class PostController extends Controller
     public function store(PostRequest $request)
     {
         $inputs = $request->all();
-        // dd($inputs);
         $inputs['user_id'] = Auth::id();
         $inputs['image'] = $request->file('image')->hashName();
         $request->file('image')->store('/public/images');
         $post = $this->post->create($inputs);
-        $post->prefectures()->attach($request->input('prefectures'));
+        $post->prefectures()->attach($request->input('prefecture_id'));
         return redirect()->route('post.index')->with('flash_message', '投稿が完了しました');
     }
 
@@ -111,14 +112,21 @@ class PostController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * 編集画面表示
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($post_id)
     {
-        //
+        $post = $this->post->with('prefectures')->find($post_id);
+        $categoryList = $this->category->pluck('name', 'id');
+        $prefectureList = $this->prefecture->pluck('name', 'id');
+        return view('posts.edit', compact(
+            'post',
+            'categoryList',
+            'prefectureList'
+        ));
     }
 
     /**
@@ -128,9 +136,18 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $post_id)
     {
-        //
+        $inputs = $request->all();
+        $inputs['user_id'] = Auth::id();
+        if (!is_null($request->file('image'))) {
+            $inputs['image'] = $request->file('image')->hashName();
+            $request->file('image')->store('/public/images');
+        }
+        $post = $this->post->find($post_id);
+        $post->update($inputs);
+        $post->prefectures()->sync($inputs['prefecture_id']);
+        return redirect()->route('post.index')->with('flash_message', '更新が完了しました');
     }
 
     /**

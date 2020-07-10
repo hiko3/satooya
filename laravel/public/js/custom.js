@@ -1,18 +1,19 @@
 $(function() {
-  // カテゴリ検索用
-  $('.search-wrap .category-link').on('click', function (e) {
+  // カテゴリ検索
+  $('.category-link').on('click', function (e) {
     e.preventDefault();
     var category_id = $(this).attr('id');
     $('#category-val').val(category_id);
     $('.post-form').submit();
   });
 
-  $('.search-wrap .sort-link').on('click', function (e) {
+  // ソート
+  $('.sort-link').on('click', function (e) {
     e.preventDefault();
     var sort_id = $(this).attr('id');
     $('#sort-val').val(sort_id);
     $('.post-form').submit();
-  })
+  });
 
   // カテゴリタブのアクティブ切り替え
   let params = new URLSearchParams(location.search);
@@ -40,7 +41,6 @@ $(function() {
   // カテゴリのselect要素が変更になるとイベントが発生
   $('#parent').change(function () {
     var cate_val = $(this).val();
-
     $.ajax({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -52,15 +52,42 @@ $(function() {
     })
     .done(function(data) {
       $('#children option').remove();
-      $.each(data, function(key, value) {
+      $.each(data[1], function(key, value) {
         $('#children').append($('<option>').text(value.name).attr('value', value.id));
       })
     })
     .fail(function() {
       console.log('失敗');
     }); 
-    
   });
+
+  // セレクトボックスの連動、編集ページの場合
+  if ($('#parent').val()) {
+    var cate_val = $('#parent').val();
+    var path = location.pathname;
+    // postsテーブルのidをurlパスから取得
+    var post_id = path.replace(/[^\d]/g, '');
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      url: '/fetch/category/',
+      type: 'POST',
+      data: { 'category_val': cate_val, 'post_id': post_id },
+      datatype: 'json',
+    })
+    .done(function (data) {
+      $('#children option').remove();
+      $.each(data[1], function (key, value) {
+        $('#children').append($('<option>').text(value.name).attr('value', value.id));
+      });
+      // DBのサブカテゴリを選択状態に
+      $(`#children option[value=${data[0].sub_category_id}]`).prop('selected', true);
+    })
+    .fail(function () {
+      console.log('失敗');
+    }); 
+  }
 
 
 });
