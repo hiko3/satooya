@@ -20,6 +20,7 @@ Route::post('/fetch/category', 'PostController@fetch')->name('post.fetch');
 Route::get('/post/{post_id}', 'PostController@show')->name('post.show');
 Route::get('/post/edit/{post_id}', 'PostController@edit')->name('post.edit');
 Route::put('/post/update/{post_id}', 'PostController@update')->name('post.update');
+Route::delete('/post/destroy/{post_id}', 'PostController@destroy')->name('post.destroy');
 
 Route::get('/users/{user_id}', 'UserController@show')->name('user.show');
 

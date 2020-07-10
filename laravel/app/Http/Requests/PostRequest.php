@@ -38,7 +38,7 @@ class PostRequest extends FormRequest
             ],
             'gender'          => ['required', 'regex:/(オス|メス|不明)/'],
             'recruit_status'  => 'required|exists:posts',
-            'prefectures'     => 'required|exists:prefectures,id',
+            'prefecture_id'   => 'required|exists:prefectures,id',
             'deadline_date'   => 'required|date|before:1 years|after:today'
         ];
     }

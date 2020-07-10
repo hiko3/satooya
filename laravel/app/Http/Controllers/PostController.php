@@ -9,6 +9,7 @@ use App\Models\TagCategory;
 use App\Models\SubCategory;
 use App\Models\Prefecture;
 use App\Http\Requests\PostRequest;
+use Carbon\Carbon;
 
 class PostController extends Controller
 {
@@ -96,7 +97,10 @@ class PostController extends Controller
         $request->file('image')->store('/public/images');
         $post = $this->post->create($inputs);
         $post->prefectures()->attach($request->input('prefecture_id'));
-        return redirect()->route('post.index')->with('flash_message', '投稿が完了しました');
+        return redirect()->route('post.index')->with([
+            'msg_success' => '投稿しました',
+            'color'  => 'success',
+        ]);
     }
 
     /**
@@ -108,7 +112,8 @@ class PostController extends Controller
     public function show($post_id)
     {
         $post = $this->post->find($post_id);
-        return view('posts.show', compact('post'));
+        $diff = $post->updated_at->diffInDays(Carbon::now());
+        return view('posts.show', compact('post', 'diff'));
     }
 
     /**
@@ -147,7 +152,10 @@ class PostController extends Controller
         $post = $this->post->find($post_id);
         $post->update($inputs);
         $post->prefectures()->sync($inputs['prefecture_id']);
-        return redirect()->route('post.index')->with('flash_message', '更新が完了しました');
+        return redirect()->route('post.index')->with([
+            'msg_success' => '更新しました',
+            'color'  => 'success',
+        ]);
     }
 
     /**
@@ -156,8 +164,12 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($post_id)
     {
-        //
+        $this->post->find($post_id)->delete();
+        return redirect()->route('post.index')->with([
+            'msg_danger' => '削除しました',
+            'color'  => 'error',
+        ]);
     }
 }

@@ -17,7 +17,8 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -78,11 +79,11 @@
             </div>
         </nav>
 
-        @if (session('flash_message'))
-            <div class="flash_message bg-success text-center py-3 my-0">
+        {{-- @if (session('flash_message'))
+            <div class="flash_message bg-{{session('color')}} text-center py-3 my-0">
                 {{ session('flash_message') }}
             </div>
-        @endif
+        @endif --}}
 
         <main class="py-4">
             <div class="container">
@@ -92,8 +93,24 @@
     </div>
     <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js" defer></script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="{{ asset('js/custom.js') }}"></script>
+    @if (session('msg_success'))
+    <script>
+        $(function () {
+            toastr.{{ session('color') }}('{{ session('msg_success') }}');
+        });
+    </script>
+    @endif
+    @if (session('msg_danger'))
+    <script>
+        $(function () {
+            toastr.{{ session('color') }}('{{ session('msg_danger') }}');
+        });
+    </script>
+    @endif
 </body>
 </html>

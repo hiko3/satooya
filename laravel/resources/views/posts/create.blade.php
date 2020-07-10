@@ -68,13 +68,13 @@
         <label for="js-multiple" style="display: block">募集対象地域
           <small class="text-muted pl-3">＊複数選択可</small>
         </label>
-        <select class="form-control" id="js-multiple" name="prefectures[]" multiple="multiple">
+        <select class="form-control" id="js-multiple" name="prefecture_id[]" multiple="multiple">
           <option value="" style="display: none;">選択してください</option>
           @foreach ($prefectureList as $index => $name)
             <option value="{{ $index }}">{{ $name }}</option>
           @endforeach
         </select>
-        @error('prefectures')
+        @error('prefecture_id')
           <span class="alert-danger">{{ $message }}</span>
         @enderror
       </div>
