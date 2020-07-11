@@ -98,6 +98,7 @@ $(function() {
     document.deleteform.submit();
   });
 
+  // 画像プレビュー
   $('#myfile').on('change', function(e) {
     // ファイルオブジェクトを取得する
     var file = e.target.files[0];

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Post;
 use App\Models\TagCategory;
 use App\Models\SubCategory;
@@ -135,7 +136,7 @@ class PostController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 投稿更新処理
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
@@ -159,14 +160,16 @@ class PostController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 投稿削除処理
      *
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($post_id)
     {
-        $this->post->find($post_id)->delete();
+        $post = $this->post->find($post_id);
+        $post->delete();
+        Storage::delete('public/images/'.$post->image);
         return redirect()->route('post.index')->with([
             'msg_danger' => '削除しました',
             'color'  => 'error',

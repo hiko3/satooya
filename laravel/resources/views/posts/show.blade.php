@@ -7,7 +7,11 @@
     </div>
     <div class="row no-gutters">
       <div class="col-md-4 p-3">
-        <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">
+        @if (!empty($post->image))
+          <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">
+        @else
+          <img class="card-img-top" src="{{ asset('storage/images/noimage.png') }}" alt="Card image cap" width="250" height="200">
+        @endif
         @if ($post->user_id === Auth::id())
           <a href="{{ route('post.edit', $post->id) }}" class="btn btn-outline-primary btn-block mt-3">編集</a>
           <form action="{{ route('post.destroy', $post->id) }}" method="POST">
