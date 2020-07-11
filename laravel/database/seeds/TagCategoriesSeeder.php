@@ -11,7 +11,7 @@ class TagCategoriesSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('tag_categories')->truncate();
+        // DB::table('tag_categories')->truncate();
         DB::table('tag_categories')->insert([
             [
                 'name' => '犬',

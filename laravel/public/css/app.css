@@ -10960,6 +10960,11 @@ a.text-dark:focus {
   background-color: #fff;
 }
 
+.card .btn {
+  z-index: 3;
+  position: relative;
+}
+
 .album {
   background-color: #eee8aa;
 }

@@ -41,6 +41,11 @@
   background-color: #fff;
 }
 
+.card .btn {
+  z-index: 3;
+  position: relative;
+}
+
 // bootstrapカスタムここまで
 
 .album {

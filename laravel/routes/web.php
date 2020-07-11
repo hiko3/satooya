@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,18 +14,22 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', 'PostController@index')->name('post.index');
-Route::get('/create', 'PostController@create')->name('post.create');
-Route::post('/store', 'PostController@store')->name('post.store');
-Route::post('/fetch/category', 'PostController@fetch')->name('post.fetch');
-Route::get('/post/{post_id}', 'PostController@show')->name('post.show');
-Route::get('/post/edit/{post_id}', 'PostController@edit')->name('post.edit');
-Route::put('/post/update/{post_id}', 'PostController@update')->name('post.update');
-Route::delete('/post/destroy/{post_id}', 'PostController@destroy')->name('post.destroy');
+Auth::routes();
+Route::group(['prefix' => '/posts'], function() {
+  Route::get('', 'PostController@index')->name('post.index');
+  Route::get('/create', 'PostController@create')->name('post.create');
+  Route::post('/store', 'PostController@store')->name('post.store');
+  Route::post('/category', 'PostController@fetch')->name('post.fetch');
+  Route::get('/{post_id}', 'PostController@show')->name('post.show');
+  Route::get('/edit/{post_id}', 'PostController@edit')->name('post.edit');
+  Route::put('/update/{post_id}', 'PostController@update')->name('post.update');
+  Route::delete('/destroy/{post_id}', 'PostController@destroy')->name('post.destroy');
+  Route::post('/{post_id}/favorite', 'FavoriteController@store')->name('favorite.store');
+  Route::delete('/{post_id}/unfavorite', 'FavoriteController@destroy')->name('favorite.destroy');
+});
 
 Route::get('/users/{user_id}', 'UserController@show')->name('user.show');
 
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');

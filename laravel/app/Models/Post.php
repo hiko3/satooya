@@ -21,6 +21,10 @@ class Post extends Model
     /** ページ表示数 */
     const PAGINATE_NUM = 21;
 
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function tagCategory() {
         return $this->belongsTo(TagCategory::class);
     }
@@ -139,5 +143,5 @@ class Post extends Model
                         ->paginate(self::PAGINATE_NUM);
         }
     }
-    
+
 }

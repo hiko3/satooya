@@ -14,7 +14,7 @@
     <div class="form-row">
       <div class="form-group col-sm-6">
         <label for="tag-category">ペットの種類</label>
-        <select class="form-control" name="tag_category_id" id="parent">
+        <select class="form-control" name="tag_category_id" id="parent" data-post_id="{{ $post->id }}">
           <option value="" style="display: none;">選択してください(大別)</option>
           @foreach ($categoryList as $index => $name)
             <option value="{{ $index }}" @if($post->tag_category_id === $index) selected @endif>{{ $name }}</option>
