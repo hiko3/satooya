@@ -33,5 +33,7 @@ class CreatePostPrefecturesTable extends Migration
     public function down()
     {
         Schema::dropIfExists('post_prefectures');
+        Schema::dropIfExists('posts');
+        Schema::dropIfExists('prefectures');
     }
 }
