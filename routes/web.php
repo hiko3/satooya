@@ -15,8 +15,8 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes();
+Route::get('/', 'PostController@index')->name('post.index');
 Route::group(['prefix' => '/posts'], function() {
-  Route::get('', 'PostController@index')->name('post.index');
   Route::get('/create', 'PostController@create')->name('post.create');
   Route::post('/store', 'PostController@store')->name('post.store');
   Route::post('/category', 'PostController@fetch')->name('post.fetch');
