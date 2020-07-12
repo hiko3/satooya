@@ -93,7 +93,7 @@ $(function() {
       window.alert('キャンセルされました');
       return false;
     }
-    document.deleteform.submit();
+    $('#delete-form').submit();
   });
 
   // 画像プレビュー
@@ -143,6 +143,5 @@ $(function() {
       }
     });
   });
-
   
 });
