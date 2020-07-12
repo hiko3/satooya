@@ -170,7 +170,7 @@ class PostController extends Controller
         $post = $this->post->find($post_id);
         $post->delete();
         Storage::delete('public/images/'.$post->image);
-        return redirect()->route('post.index')->with([
+        return redirect()->route('user.show', $post->user->id)->with([
             'msg_danger' => '削除しました',
             'color'  => 'error',
         ]);

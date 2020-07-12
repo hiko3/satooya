@@ -14,9 +14,9 @@
         @endif
         @if ($post->user_id === Auth::id())
           <a href="{{ route('post.edit', $post->id) }}" class="btn btn-outline-primary btn-block mt-3">編集</a>
-          <form action="{{ route('post.destroy', $post->id) }}" method="POST">
+          <form action="{{ route('post.destroy', $post->id) }}" method="POST" id="delete-form">
             @method('DELETE') @csrf
-            <button class="btn btn-outline-danger btn-block mt-3" type="submit" id="delete">削除</button>
+            <button class="btn btn-outline-danger btn-block mt-3" id="delete">削除</button>
           </form>
         @endif
         @auth
