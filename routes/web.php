@@ -30,6 +30,14 @@ Route::group(['prefix' => '/posts'], function() {
 
 Route::get('/users/{user_id}', 'UserController@show')->name('user.show');
 
+Route::group(['prefix' => '/contact'], function() {
+  // 入力ページ
+  Route::get('/{user_id}', 'ContactController@create')->name('contact.create');
+  // 確認ページ
+  Route::post('/confirm', 'ContactController@confirm')->name('contact.confirm');
+  // 送信完了ページ
+  Route::post('/thanks', 'ContactController@send')->name('contact.send');
+});
 
 
 Route::get('/home', 'HomeController@index')->name('home');

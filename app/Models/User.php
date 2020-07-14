@@ -16,7 +16,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'email', 'gender', 'prefecture_id', 'password',
     ];
 
     /**
@@ -41,6 +41,11 @@ class User extends Authenticatable
     public function posts()
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function prefecture()
+    {
+      return $this->belongsTo(Prefecture::class);
     }
 
     // リレーション
