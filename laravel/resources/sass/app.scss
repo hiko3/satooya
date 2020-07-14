@@ -1,0 +1,65 @@
+// Fonts
+@import url('https://fonts.googleapis.com/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import '~bootstrap/scss/bootstrap';
+
+
+// bootstrapカスタム
+.input-group-text {
+  border: 2px solid #1b4b72;
+}
+
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  color: #fff;
+  background-color: #1b4b72;
+}
+
+.nav-pills .nav-link:hover {
+  border-color: #1b4b72; 
+}
+
+.nav-tabs {
+  border-bottom: 1px solid #1b4b72;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  border-color: #1b4b72 #1b4b72 #eee8aa;
+}
+
+.nav-tabs .nav-link:hover,
+.nav-tabs .nav-link:focus {
+  border-color: #1b4b72 #1b4b72 #eee8aa;
+}
+
+.card-header {
+  background-color: #fff;
+}
+
+.card .btn {
+  z-index: 3;
+  position: relative;
+}
+
+// bootstrapカスタムここまで
+
+.album {
+  background-color: #eee8aa;
+}
+
+.search-wrap {
+  background-color: #f0f8ff;
+}
+
+.male-color {
+  color: blue;
+}
+
+.female-color {
+  color: red;
+}
