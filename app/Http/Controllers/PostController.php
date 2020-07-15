@@ -142,7 +142,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $post_id)
+    public function update(PostRequest $request, $post_id)
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();

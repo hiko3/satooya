@@ -20,6 +20,7 @@ class CreateUsersTable extends Migration
             $table->integer('prefecture_id');
             $table->string('gender');
             $table->string('avatar')->nullable();
+            $table->text('introduction')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

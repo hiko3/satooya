@@ -13,21 +13,22 @@ class CreateFavoritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('favorites', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')
-                    ->constrained()
-                    ->onDelete('cascade');
+      Schema::disableForeignKeyConstraints();
+      Schema::create('favorites', function (Blueprint $table) {
+          $table->id();
+          $table->foreignId('user_id')
+                  ->constrained()
+                  ->onDelete('cascade');
 
-            $table->foreignId('post_id')
-                    ->constrained()
-                    ->onDelete('cascade');
-            
-            $table->timestamps();
-            
-            $table->unique(['user_id', 'post_id']);
-        });
-
+          $table->foreignId('post_id')
+                  ->constrained()
+                  ->onDelete('cascade');
+          
+          $table->timestamps();
+          
+          $table->unique(['user_id', 'post_id']);
+      });
+      Schema::enableForeignKeyConstraints();
     }
 
     /**
@@ -37,8 +38,8 @@ class CreateFavoritesTable extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('favorites');
-        Schema::dropIfExists('users');
-        Schema::dropIfExists('posts');
+        Schema::enableForeignKeyConstraints();
     }
 }

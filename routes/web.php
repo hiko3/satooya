@@ -28,7 +28,11 @@ Route::group(['prefix' => '/posts'], function() {
   Route::delete('/{post_id}/unfavorite', 'FavoriteController@destroy')->name('favorite.destroy');
 });
 
-Route::get('/users/{user_id}', 'UserController@show')->name('user.show');
+Route::group(['prefix' => 'users'], function() {
+  Route::get('/{user_id}', 'UserController@show')->name('user.show');
+  Route::get('/{user_id}/edit', 'UserController@edit')->name('user.edit');
+  Route::put('/{user_id}/update', 'UserController@update')->name('user.update');
+});
 
 Route::group(['prefix' => '/contact'], function() {
   // 入力ページ

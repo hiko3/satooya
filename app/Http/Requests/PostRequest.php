@@ -32,6 +32,8 @@ class PostRequest extends FormRequest
             'tag_category_id' => 'required|exists:tag_categories,id,deleted_at,NULL',
             'sub_category_id' => [
                 'required',
+                // サブカテゴリーテーブルのtag_category_idが$cateIdであるレコードのidカラムに
+                // フィールドの値が存在することをバリデート
                 Rule::exists('sub_categories', 'id')->where(function ($query) use ($cateId) {
                     $query->where('tag_category_id', $cateId);
                 }),

@@ -28,7 +28,6 @@
             @endif
             <a href="{{ route('contact.create', $post->user->id) }}" class="btn btn-primary btn-block mt-2 "><small>里親を申し出る・質問する</small></a>
           @endif
-          
         @endauth
       </div>
       <div class="col-md-8">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -12,9 +13,49 @@ class UserController extends Controller
      *
      * @return void
      */
-    public function show($userId)
+    public function show(Request $request, $userId)
     {
-        $posts = User::find($userId)->posts->sortByDesc('updated_at');
-        return view('users.show', compact('posts'));
+        $user = User::find($userId);
+        $input = $request->only('sort');
+        // dd($input['sort']);
+        if ($input['sort'] ?? '' === 'favorite') {
+          $posts = Auth::user()->favorites()->get();
+        } else {
+          $posts = $user->posts->sortByDesc('updated_at');
+        }
+        return view('users.show', compact('user', 'posts'));
     }
+
+    /**
+     * 会員情報編集ページ
+     *
+     * @param [type] $userId
+     * @return void
+     */
+    public function edit($userId)
+    {
+      $user = User::find($userId);
+      $prefectureList = $user->prefecture->pluck('name', 'id');
+      return view('users.edit', compact('user', 'prefectureList'));
+    }
+
+    /**
+     * 会員情報更新処理
+     *
+     * @param Request $request
+     * @param [type] $userId
+     * @return void
+     */
+    public function update(Request $request, $userId)
+    {
+      $user = User::find($userId);
+      $inputs = $request->all();
+      if (!is_null($request->file('avatar'))) {
+        $inputs['avatar'] = $request->file('avatar')->hashName();
+        $request->file('avatar')->store('/public/images');
+      }
+      $user->update($inputs);
+      return redirect()->route('user.show', $user->id);
+    }
+
 }
