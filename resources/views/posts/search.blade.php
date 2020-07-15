@@ -39,7 +39,6 @@
               <option value="{{ $index }}">{{ $name }}</option>
             @endforeach
           @endif
-
         </select>
       </div>
     </div>

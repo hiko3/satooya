@@ -15,6 +15,33 @@ $(function() {
     $('.post-form').submit();
   });
 
+  // アイコン
+  $('.category-link').each(function() {
+    var cate_id = $(this).attr('id');
+    switch (cate_id) {
+      case "1":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-dog pr-1"></i>');
+      break;
+      case "2":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-cat pr-1"></i>');
+      break;
+      case "3":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-otter pr-1"></i>');
+      break;
+      case "4":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-fish pr-1"></i>');
+      break;
+      case "5":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-dove pr-1"></i>');
+      break;
+      case "6":
+      $('#' + `${cate_id}`).prepend('<i class="fas fa-frog pr-1"></i>');
+      break;
+    }
+  });
+
+  // マイページソート
+
   // カテゴリタブのアクティブ切り替え
   let params = new URLSearchParams(location.search);
   const categoryId = params.get("tag_category_id");
