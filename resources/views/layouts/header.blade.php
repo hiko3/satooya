@@ -10,9 +10,13 @@
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <!-- Left Side Of Navbar -->
-        <ul class="navbar-nav mr-auto">
-
+        @guest
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-items">
+            <a class="btn btn-outline-success" href="{{ route('login.guest') }}">ゲストユーザーとしてログインする（全機能使用可能）</a>
+          </li>
         </ul>
+        @endguest
 
         <!-- Right Side Of Navbar -->
         <ul class="navbar-nav ml-auto">
@@ -22,17 +26,22 @@
           @endauth
           @guest
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('login') }}">{{ __('ログイン') }}</a>
+                <a class="nav-link" href="{{ route('login') }}"><i class="fas fa-sign-in-alt pr-1"></i>{{ __('ログイン') }}</a>
             </li>
             @if (Route::has('register'))
               <li class="nav-item">
-                  <a class="nav-link" href="{{ route('register') }}">{{ __('会員登録') }}</a>
+                  <a class="nav-link" href="{{ route('register') }}"><i class="fas fa-user-plus pr-1"></i>{{ __('会員登録') }}</a>
               </li>
             @endif
           @else
           <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                <img src="{{ asset('storage/images/'.Auth::user()->avatar) }}" width="35" height="35" class="rounded"><span class="caret"></span>
+              @if (Auth::user()->avatar)
+                <img src="{{ asset('storage/images/'.Auth::user()->avatar) }}" width="35" height="35" class="rounded">
+              @else
+                <img src="{{ asset('storage/images/user_no-image.png') }}" width="35" height="35" class="rounded">
+              @endif
+                <span class="caret"></span>
             </a>
 
             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">

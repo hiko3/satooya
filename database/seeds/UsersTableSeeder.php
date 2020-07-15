@@ -55,6 +55,15 @@ class UsersTableSeeder extends Seeder
                 'password'   => Hash::make('password'),
                 'created_at' => Carbon::create(2020, 06, 10)
             ],
+            [
+                'name'       => 'ゲスト',
+                'email'      => 'guest@guest.com',
+                'prefecture_id' => 20,
+                'gender'     => '男性',
+                'password'   => Hash::make('password'),
+                'created_at' => Carbon::create(2020, 06, 10)
+            ],
+            
         ]);
     }
 }

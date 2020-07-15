@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Auth::routes();
+// ゲストログイン
+Route::get('guest', 'Auth\LoginController@authenticate')->name('login.guest');
+
 Route::get('/', 'PostController@index')->name('post.index');
 Route::group(['prefix' => '/posts'], function() {
   Route::get('/create', 'PostController@create')->name('post.create');
