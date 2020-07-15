@@ -81,11 +81,7 @@
               <strong>{{ $message }}</strong>
             </span>
           @enderror
-          @if (!empty($user->avatar))
-            <img src="{{ asset('storage/images/'.$user->avatar) }}" width="200" height="200">
-          @else
-            <img id="img-prev" style="width:200px;height:200px;">  
-          @endif
+          <img src="{{ asset('storage/images/'.$user->avatar) ?? ''}}" id="img-prev" width="200" height="200">
         </div>
       </div>
 
@@ -93,7 +89,7 @@
         <label for="introduction" class="col-md-4 col-form-label text-md-right">{{ __('紹介文') }}</label>
       
         <div class="col-md-6">
-          <textarea id="introduction" type="text" class="form-control @error('introduction') is-invalid @enderror" name="introduction" required autocomplete="introduction" autofocus rows="5">
+          <textarea id="introduction" type="text" class="form-control @error('introduction') is-invalid @enderror" name="introduction" autocomplete="introduction" autofocus rows="5">
             {{ $user->introduction ?? '' }}
           </textarea>
       

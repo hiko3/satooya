@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-  <div class="album py-5">
+  <div class="album py-4">
     @include('posts.search')
     <div class="items-wrap">
       <div class="row">

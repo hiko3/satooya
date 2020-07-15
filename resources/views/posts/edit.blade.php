@@ -88,11 +88,11 @@
           <span class="alert-danger">{{ $message }}</span>
         @enderror
       </div>
-      @if (!empty($post->image))
+      {{-- @if (!empty($post->image))
         <img src="{{ asset('storage/images/'.$post->image) }}" width="200" height="200">
-      @else
-        <img id="img-prev" style="width:200px;height:200px;">  
-      @endif
+      @else --}}
+      <img src="{{ asset('storage/images/'.$post->image) ?? '' }}" id="img-prev" width="200" height="200">  
+      {{-- @endif --}}
       <div class="form-group pt-3">
         <label for="deadline_date">掲載期限
           <small class="text-muted pl-3">1年以内の日付をご指定ください</small>

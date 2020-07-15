@@ -1,9 +1,13 @@
 @extends('layouts.app')
 @section('content')
   
-    <div class="p-3 d-sm-flex">
+    <div class="prof-wrap p-3 d-sm-flex">
       <div class="mx-3 d-flex flex-column">
-        <img src="{{ asset('storage/images/'.$user->avatar) }}" class="rounded" width="100" height="100">
+        @if ($user->avatar)
+          <img src="{{ asset('storage/images/'.$user->avatar) }}" class="rounded" width="100" height="100">
+        @else
+          <img src="{{ asset('storage/images/user_no-image.png') }}" width="100" height="100" class="rounded">
+        @endif
         <div class="my-3 d-flex flex-column">
           <span class="text-secondary">{{ $user->name }}</span>
         </div>
@@ -24,7 +28,6 @@
           <li class="nav-item"><a href="#" id="favorite" class="nav-link sort-link">お気に入りした募集</a></li>
           <input type="hidden" name="sort" value="" id="sort-val">
         </ul>
-        {{-- <div class="text-muted col-md-3 py-3 pl-5">{{ $postCount }}件中 1~{{ $posts->count() }}件</div> --}}
       </div>
     </form>
     <div class="items-wrap">
