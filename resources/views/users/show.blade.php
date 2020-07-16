@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
   
-    <div class="prof-wrap p-3 d-sm-flex">
+    <div class="search-wrap p-3 d-sm-flex">
       <div class="mx-3 d-flex flex-column">
         @if ($user->avatar)
           <img src="{{ asset('storage/images/'.$user->avatar) }}" class="rounded" width="100" height="100">

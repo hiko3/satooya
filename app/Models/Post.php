@@ -82,9 +82,9 @@ class Post extends Model
     /**
      * キーワード検索
      *
-     * @param [type] $query
-     * @param [type] $keyword
-     * @return void
+     * @param Builder $query
+     * @param mixed $keyword
+     * @return Illuminate\Database\Eloquent\Builder
      */
     public function scopeSearchKeyword($query, $keyword)
     {
@@ -102,9 +102,9 @@ class Post extends Model
     /**
      * ソート
      *
-     * @param [type] $query
+     * @param Builder $query
      * @param [type] $sort
-     * @return void
+     * @return Illuminate\Database\Eloquent\Builder
      */
     public function scopeSortPosts($query, $sort)
     {

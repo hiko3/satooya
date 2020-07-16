@@ -13,8 +13,4 @@ class Post_Prefecture extends Model
         'prefecture_id',
     ];
 
-    public function scopeSearchPrefecture($query, $prefectureId)
-    {
-        return $query->where('prefecture_id', $prefectureId);
-    }
 }

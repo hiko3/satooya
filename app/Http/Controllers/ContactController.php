@@ -10,6 +10,11 @@ use App\Models\User;
 
 class ContactController extends Controller
 {
+
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
     /**
      * お問い合わせページ表示
      *
@@ -23,6 +28,12 @@ class ContactController extends Controller
       return view('contacts.create', compact('user'));
     }
 
+    /**
+     * 確認画面表示
+     *
+     * @param Request $request
+     * @return void
+     */
     public function confirm(Request $request)
     {
       $inputs = $request->all();

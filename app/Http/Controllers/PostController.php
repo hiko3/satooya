@@ -37,13 +37,13 @@ class PostController extends Controller
     /**
      * 投稿一覧表示
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request)
     {
-        $searches = $request->only(
-            ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title', 'sort']
-        );
+      $searches = $request->only(
+        ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title', 'sort']
+      );
         $prefectures = ($searches['prefectures'] ?? '');
         $posts = $this->post->getSearchIndexPost($searches, $prefectures);
         $postCount = $this->post->all()->count();
@@ -58,7 +58,7 @@ class PostController extends Controller
     /**
      * 投稿作成画面表示
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function create()
     {
@@ -74,7 +74,8 @@ class PostController extends Controller
      * @param Request $request
      * @return json $subCategory
      */
-    public function fetch(Request $request) {
+    public function fetch(Request $request)
+    {
         $cateVal = $request['category_val'];
         $postId = $request['post_id'];
         $post = $this->post->find($postId);
@@ -87,8 +88,9 @@ class PostController extends Controller
     /**
      * 新規投稿処理
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param  \Illuminate\Http\Request request
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
+
      */
     public function store(PostRequest $request)
     {
@@ -108,7 +110,7 @@ class PostController extends Controller
      * 投稿詳細画面表示
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function show($post_id)
     {
@@ -121,7 +123,7 @@ class PostController extends Controller
      * 編集画面表示
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function edit($post_id)
     {
@@ -140,15 +142,20 @@ class PostController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function update(PostRequest $request, $post_id)
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
         if (!is_null($request->file('image'))) {
-            $inputs['image'] = $request->file('image')->hashName();
+          if (app()->isLocal()) {
             $request->file('image')->store('/public/images');
+            $inputs['image'] = $request->file('image')->hashName();
+          } else {
+            $path = Storage::disk('s3')->put('/', $request->file('image'), 'public');
+            $inputs['image'] = Storage::disk('s3')->url($path);
+          }
         }
         $post = $this->post->find($post_id);
         $post->update($inputs);
@@ -163,7 +170,7 @@ class PostController extends Controller
      * 投稿削除処理
      *
      * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
     public function destroy($post_id)
     {
