@@ -4,7 +4,11 @@
   <div class="card p-3">
     <form method="POST" action="{{ route('contact.confirm') }}">
     @csrf
-    <h2>以下の内容を掲載者<img src="{{ asset('storage/images/'.$user->avatar) }}">{{ $user->name }}さんに送信します</h2>
+    @if ($user->avatar)
+      <h2>以下の内容を掲載者 <img src="{{ asset('storage/images/'.$user->avatar) }}">{{ $user->name }}さんに送信します</h2>  
+    @else
+      <h2>以下の内容を掲載者 <img src="{{ asset('storage/images/user_no-image.png') }}" width="30" height="30">{{ $user->name }}さんに送信します</h2> 
+    @endif
   
     <table class="table">
       <tbody>
