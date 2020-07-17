@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class Post extends Model
 {
@@ -33,8 +35,32 @@ class Post extends Model
         return $this->belongsTo(SubCategory::class);
     }
 
-    public function prefectures() {
+    public function prefectures() 
+    {
         return $this->belongsToMany(Prefecture::class, 'post_prefectures', 'post_id', 'prefecture_id');
+    }
+
+    public function favorites()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'post_id', 'user_id');
+    }
+
+
+    /**
+     * 掲載期限日になったら、recruit_statusを募集終了に更新
+     *
+     * @return bool
+     */
+    public function updateStateByDeadline()
+    {
+      $posts = $this->all();
+      $now = Carbon::now()->format('Y-m-d');
+      foreach ($posts as $post) {
+        if ($post->deadline_date < $now) {
+          $post->recruit_status = "募集終了";
+          $post->save();
+        }
+      }
     }
 
     /**
@@ -132,6 +158,11 @@ class Post extends Model
                         ->searchGender($searches['gender'] ?? '')
                         ->searchKeyword($searches['title'] ?? '')
                         ->sortPosts($searches['sort'] ?? '')
+                        ->with(['user', 'prefectures', 'subCategory',
+                          'favorites' => function($query) {
+                            $query->where('user_id', Auth::id());
+                          }
+                        ])
                         ->paginate(self::PAGINATE_NUM);
         } 
         else {
@@ -140,6 +171,11 @@ class Post extends Model
                         ->searchGender($searches['gender'] ?? '')
                         ->searchKeyword($searches['title'] ?? '')
                         ->sortPosts($searches['sort'] ?? '')
+                        ->with(['user', 'prefectures', 'subCategory',
+                          'favorites' => function($query) {
+                            $query->where('user_id', Auth::id());
+                          }
+                        ])
                         ->paginate(self::PAGINATE_NUM);
         }
     }

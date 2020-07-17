@@ -37,10 +37,10 @@
                 <p class="small">{{ $post->deadline_date }}まで</p>
                 @auth
                   @if (Auth::id() !== $post->user->id)
-                    @if (Auth::user()->is_favorite($post->id))
-                      <button class="btn btn-warning btn-sm favorite" data-postid="{{ $post->id }}" data-or_favorite="unfavorite">お気に入り解除</button>
+                    @if($post->favorites->isEmpty())
+                      <button class="btn btn-success btn-sm favorite" data-postid="{{ $post->id }}" data-or_favorite="unfavorite">お気に入り登録</button>
                     @else
-                      <button class="btn btn-success btn-sm favorite" data-postid="{{ $post->id }}" data-or_favorite="favorite">お気に入り登録</button>
+                      <button class="btn btn-warning btn-sm favorite" data-postid="{{ $post->id }}" data-or_favorite="favorite">お気に入り解除</button>
                     @endif
                   @endif
                 @endauth

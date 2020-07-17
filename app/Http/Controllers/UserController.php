@@ -21,11 +21,11 @@ class UserController extends Controller
      */
     public function show(Request $request, $userId)
     {
-        $user = User::find($userId);
+        $user = User::with(['posts.subCategory', 'posts.prefectures'])->find($userId);
         $input = $request->only('sort');
         // dd($input['sort']);
         if ($input['sort'] ?? '' === 'favorite') {
-          $posts = Auth::user()->favorites()->get();
+          $posts = Auth::user()->favorites()->with(['subCategory', 'prefectures', 'user'])->get();
         } else {
           $posts = $user->posts->sortByDesc('updated_at');
         }

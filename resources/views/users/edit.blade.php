@@ -81,7 +81,11 @@
               <strong>{{ $message }}</strong>
             </span>
           @enderror
-          <img src="{{ asset('storage/images/'.$user->avatar) ?? ''}}" id="img-prev" width="200" height="200">
+          @if ($user->avatar)
+            <img src="{{ asset('storage/images/'.$user->avatar) ?? ''}}" id="img-prev" width="200" height="200">  
+          @else
+            <img src="{{ asset('storage/images/user_no-image.png') ?? ''}}" id="img-prev" width="200" height="200">
+          @endif
         </div>
       </div>
 

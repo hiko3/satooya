@@ -26,21 +26,16 @@ class PostController extends Controller
         $this->category = $category;
         $this->subCategory = $subCategory;
         $this->prefecture = $prefecture;
-
-        $posts = $this->post->all();
-        foreach($posts as $post) {
-            $post->where('deadline_date', date('Y-m-d'))
-                ->update(['recruit_status' => "募集終了"]);
-        }
     }
 
     /**
-     * 投稿一覧表示
+     * 投稿一覧表示(検索時は検索結果を返す)
      *
      * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
      */
     public function index(Request $request)
     {
+      $this->post->updateStateByDeadline();
       $searches = $request->only(
         ['tag_category_id', 'prefectures', 'recruit_status', 'gender', 'title', 'sort']
       );
