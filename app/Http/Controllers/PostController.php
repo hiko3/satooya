@@ -10,6 +10,7 @@ use App\Models\TagCategory;
 use App\Models\SubCategory;
 use App\Models\Prefecture;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\UpdatePostRequest;
 use Carbon\Carbon;
 
 class PostController extends Controller
@@ -91,6 +92,7 @@ class PostController extends Controller
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
+        $inputs['recruit_status'] = '里親募集中';
         $inputs['image'] = $request->file('image')->hashName();
         $request->file('image')->store('/public/images');
         $post = $this->post->create($inputs);
@@ -139,7 +141,7 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Routing\Redirector|\Illuminate\Http\RedirectResponse
      */
-    public function update(PostRequest $request, $post_id)
+    public function update(UpdatePostRequest $request, $post_id)
     {
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();

@@ -81,24 +81,25 @@ $(function() {
       $('#children option').remove();
       $.each(data[1], function(key, value) {
         $('#children').append($('<option>').text(value.name).attr('value', value.id));
-      })
+      });
     })
     .fail(function() {
       console.log('失敗');
     }); 
   });
 
-  // セレクトボックスの連動、編集ページの初期表示
+  // セレクトボックスの連動(投稿編集ページの初期表示, バリデーションリダイレクト時の前回入力値表示)
   if ($('#parent').val()) {
     let cate_val = $('#parent').val();
     let post_id = $('#parent').data('post_id');
+    let old_sub_category = $('#children').data('old_sub_category');
     $.ajax({
       headers: {
         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
       },
       url: '/posts/category',
       type: 'POST',
-      data: { 'category_val': cate_val, 'post_id': post_id },
+      data: { 'category_val': cate_val, 'post_id': post_id},
       datatype: 'json',
     })
     .done(function (data) {
@@ -106,8 +107,12 @@ $(function() {
       $.each(data[1], function (key, value) {
         $('#children').append($('<option>').text(value.name).attr('value', value.id));
       });
-      // DBのサブカテゴリを選択状態に
-      $(`#children option[value=${data[0].sub_category_id}]`).prop('selected', true);
+      // old値があったらold値を選択状態に、そうでなければDBのサブカテゴリを選択状態に
+      if (old_sub_category) {
+        $(`#children option[value=${old_sub_category}]`).prop('selected', true);
+      } else {
+        $(`#children option[value=${data[0].sub_category_id}]`).prop('selected', true);
+      }
     })
     .fail(function () {
       console.log('失敗');

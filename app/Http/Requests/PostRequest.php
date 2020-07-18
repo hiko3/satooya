@@ -28,7 +28,7 @@ class PostRequest extends FormRequest
         return [
             'title'           => 'required|max:100',
             'content'         => 'required|max:1000',
-            'image'           => 'file|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image'           => 'required|file|image|mimes:jpeg,png,jpg,gif|max:2048',
             'tag_category_id' => 'required|exists:tag_categories,id,deleted_at,NULL',
             'sub_category_id' => [
                 'required',
@@ -39,7 +39,7 @@ class PostRequest extends FormRequest
                 }),
             ],
             'gender'          => ['required', 'regex:/(オス|メス|不明)/'],
-            'recruit_status'  => 'required|exists:posts',
+            'recruit_status'  => 'sometimes|required|exists:posts',
             'prefecture_id'   => 'required|exists:prefectures,id',
             'deadline_date'   => 'required|date|before:1 years|after:today'
         ];
