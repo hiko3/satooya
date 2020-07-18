@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\Prefecture;
+use App\Rules\AlphaNumHalf;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -42,6 +43,11 @@ class RegisterController extends Controller
         $this->middleware('guest');
     }
 
+    /**
+     * Show the application registration form.
+     *
+     * @return \Illuminate\View\View|\Illuminate\Contracts\View\Factory
+     */
     public function showRegistrationForm()
     {
       $prefectureList = Prefecture::pluck('name', 'id');
@@ -56,13 +62,20 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
+        $message = [
+          'required' => '必須の項目です',
+          'max' => ':max文字以内で入力してください',
+          'min' => ':min文字以上入力してください',
+          'email.unique' => 'ご指定のメールアドレスは既に存在します',
+        ];
+    
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'gender' => ['required', 'regex:/(男性|女性)/'],
             'prefecture_id' => ['required', 'exists:prefectures,id'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+            'password' => ['required', new AlphaNumHalf, 'min:8', 'confirmed'],
+        ], $message);
     }
 
     /**

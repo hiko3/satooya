@@ -22,9 +22,9 @@
       <div class="form-group row">
         <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('メールアドレス') }}</label>
         <div class="col-md-6">
-          <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="name" autofocus>
+          <input id="email" type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" required autocomplete="email" autofocus>
       
-          @error('name')
+          @error('email')
             <span class="invalid-feedback" role="alert">
               <strong>{{ $message }}</strong>
             </span>

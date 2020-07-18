@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
@@ -23,7 +24,6 @@ class UserController extends Controller
     {
         $user = User::with(['posts.subCategory', 'posts.prefectures'])->find($userId);
         $input = $request->only('sort');
-        // dd($input['sort']);
         if ($input['sort'] ?? '' === 'favorite') {
           $posts = Auth::user()->favorites()->with(['subCategory', 'prefectures', 'user'])->get();
         } else {
@@ -52,7 +52,7 @@ class UserController extends Controller
      * @param [type] $userId
      * @return void
      */
-    public function update(Request $request, $userId)
+    public function update(UserRequest $request, $userId)
     {
       $user = User::find($userId);
       $inputs = $request->all();
