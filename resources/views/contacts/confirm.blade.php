@@ -31,7 +31,7 @@
         </tbody>
       </table>
   
-      <label>申し込み・お問い合わせメッセージ</label>
+      <label class="border-bottom">申し込み・お問い合わせメッセージ</label>
       <div class="pb-3">
         {!! nl2br(e($inputs['body'])) !!}
       </div>

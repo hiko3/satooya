@@ -1,7 +1,8 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="card bg-default p-5 mt-5">
+<div class="card bg-default px-5 pb-5 pt-2 mt-5">
+  <div class="card-header mb-3"><strong>新規里親募集</strong></div>
   <form method="POST" action="{{ route('post.store') }}" enctype="multipart/form-data">
     @csrf
     <div class="form-group">
