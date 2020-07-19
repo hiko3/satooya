@@ -15,7 +15,7 @@ $(function() {
     $('.post-form').submit();
   });
 
-  // アイコン
+  // カテゴリーアイコン
   $('.category-link').each(function() {
     var cate_id = $(this).attr('id');
     switch (cate_id) {

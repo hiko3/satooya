@@ -14,7 +14,7 @@
     <div class="form-row">
       <div class="input-group col-md-4">
         <div class="input-group-prepend">
-          <div class="input-group-text bg-transparent mr-1">募集状況</div>
+          <div class="input-group-text rounded-pill bg-transparent mr-1">募集状況</div>
         </div>
         <select name="recruit_status" class="form-control">
           <option value="">すべて</option>
@@ -25,7 +25,7 @@
       </div>
       <div class="input-group col-md-8">
         <div class="input-group-prepend">
-          <div class="input-group-text bg-transparent mr-1">募集対象地域</div>
+          <div class="input-group-text rounded-pill bg-transparent mr-1">募集対象地域</div>
         </div>
         <select name="prefectures[]" class="form-control" id="js-multiple" multiple="multiple">
           @if (old('prefectures'))
@@ -45,7 +45,7 @@
     <div class="form-row mt-1">
       <div class="input-group col-md-4">
         <div class="input-group-prepend">
-          <div class="input-group-text bg-transparent mr-1">性別</div>
+          <div class="input-group-text rounded-pill bg-transparent mr-1">性別</div>
         </div>
         <select name="gender" class="form-control">
           <option value="">すべて</option>
