@@ -21,10 +21,10 @@
         @endif
         @auth
           @if (Auth::id() !== $post->user->id)
-            @if (Auth::user()->is_favorite($post->id))
-              <button class="btn btn-warning btn-block favorite mt-3" data-postid="{{ $post->id }}" data-or_favorite="unfavorite">お気に入り解除</button>
-            @else
+            @if ($post->favorites->isEmpty())
               <button class="btn btn-success btn-block favorite mt-3" data-postid="{{ $post->id }}" data-or_favorite="favorite">お気に入り登録</button>
+            @else
+              <button class="btn btn-warning btn-block favorite mt-3" data-postid="{{ $post->id }}" data-or_favorite="unfavorite">お気に入り解除</button>
             @endif
             <a href="{{ route('contact.create', $post->user->id) }}" class="btn btn-primary btn-block mt-2 "><small>里親を申し出る・質問する</small></a>
           @endif
