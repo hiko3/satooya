@@ -62,7 +62,7 @@ class UserController extends Controller
           $path = $request->file('avatar')->store('/public/images');
           $inputs['avatar'] = Storage::url($path);
         } else {
-          $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
+          $path = Storage::disk('s3')->putFile('/', $request->file('avatar'), 'public');
           $inputs['avatar'] = Storage::disk('s3')->url($path);
         }
       }
