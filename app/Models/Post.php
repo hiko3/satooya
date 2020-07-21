@@ -21,7 +21,7 @@ class Post extends Model
     ];
 
     /** ページ表示数 */
-    const PAGINATE_NUM = 21;
+    const PAGINATE_NUM = 24;
 
     public function user() {
         return $this->belongsTo(User::class);

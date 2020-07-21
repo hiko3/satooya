@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\UserRequest;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -25,7 +26,7 @@ class UserController extends Controller
         $user = User::with(['posts.subCategory', 'posts.prefectures'])->find($userId);
         $input = $request->only('sort');
         if ($input['sort'] ?? '' === 'favorite') {
-          $posts = Auth::user()->favorites()->with(['subCategory', 'prefectures', 'user'])->get();
+          $posts = $user->favorites()->with(['subCategory', 'prefectures', 'user'])->get();
         } else {
           $posts = $user->posts->sortByDesc('updated_at');
         }
@@ -57,8 +58,13 @@ class UserController extends Controller
       $user = User::find($userId);
       $inputs = $request->all();
       if (!is_null($request->file('avatar'))) {
-        $inputs['avatar'] = $request->file('avatar')->hashName();
-        $request->file('avatar')->store('/public/images');
+        if (app()->isLocal()) {
+          $path = $request->file('avatar')->store('/public/images');
+          $inputs['avatar'] = Storage::url($path);
+        } else {
+          $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
+          $inputs['avatar'] = Storage::disk('s3')->url($path);
+        }
       }
       $user->update($inputs);
       return redirect()->route('user.show', $user->id);

@@ -5,10 +5,10 @@
     <div class="items-wrap">
       <div class="row">
         @foreach ($posts as $post)
-        <div class="col-md-4">
+        <div class="col-md-4 col-lg-3">
           <div class="card mb-4 shadow-sm">
             @if (!empty($post->image))
-              <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">  
+              <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" width="250" height="200">  
             @else
               <img class="card-img-top" src="{{ asset('storage/images/noimage.png') }}" alt="Card image cap" width="250" height="200">
             @endif

@@ -82,9 +82,9 @@
             </span>
           @enderror
           @if ($user->avatar)
-            <img src="{{ asset('storage/images/'.$user->avatar) ?? ''}}" id="img-prev" width="200" height="200">  
+            <img src="{{ $user->avatar }}" id="img-prev" width="200" height="200">  
           @else
-            <img src="{{ asset('storage/images/user_no-image.png') ?? ''}}" id="img-prev" width="200" height="200">
+            <img src="{{ Storage::disk('s3')->url('user_no-image.png') }}" id="img-prev" width="200" height="200">
           @endif
         </div>
       </div>

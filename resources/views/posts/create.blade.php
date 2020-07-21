@@ -95,8 +95,8 @@
             <strong>{{ $message }}</strong>
           </span>
         @enderror
+        <img id="img-prev" width="200px" height="200px" class="">
       </div>
-      <img id="img-prev" width="200px" height="200px" class="">
 
       <div class="form-group pt-3">
         <label for="deadline_date">掲載期限

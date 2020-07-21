@@ -115,8 +115,8 @@
             <strong>{{ $message }}</strong>
           </span>
         @enderror
+        <img src="{{ $post->image }}" id="img-prev" width="200" height="200"> 
       </div>
-      <img src="{{ asset('storage/images/'.$post->image) ?? '' }}" id="img-prev" width="200" height="200"> 
 
       <div class="form-group pt-3">
         <label for="deadline_date">掲載期限

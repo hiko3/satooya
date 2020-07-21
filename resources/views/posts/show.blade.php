@@ -8,7 +8,7 @@
     <div class="row no-gutters">
       <div class="col-md-4 p-3">
         @if (!empty($post->image))
-          <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">
+          <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" width="250" height="200">
         @else
           <img class="card-img-top" src="{{ asset('storage/images/noimage.png') }}" alt="Card image cap" width="250" height="200">
         @endif
@@ -32,7 +32,7 @@
       </div>
       <div class="col-md-8">
         <div class="card-body">
-        <h5 class="card-title">{{ $post->title }}</h5>
+          <h5 class="card-title">{{ $post->title }}</h5>
           <p>種類 : {{ $post->subCategory->name ?? '' }}</p>
           <p>雌雄:
             @if ($post->gender === 'オス')
@@ -54,6 +54,9 @@
           <p class="card-text">説明(募集経緯、性格、健康状態等)</p>
           <p class="card-text">{{ $post->content }}</p>
           <p class="card-text"><small class="text-muted">Last updated {{ $diff }} days ago</small></p>
+          @if ($post->user->id !== Auth::id())
+            <a href="{{ route('user.show', $post->user->id) }}">投稿者:{{ $post->user->name }}さん</a>  
+          @endif
         </div>
       </div>
     </div>

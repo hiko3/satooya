@@ -37,9 +37,9 @@
           <li class="nav-item dropdown">
             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
               @if (Auth::user()->avatar)
-                <img src="{{ asset('storage/images/'.Auth::user()->avatar) }}" width="35" height="35" class="rounded">
+                <img src="{{ Auth::user()->avatar }}" width="35" height="35" class="rounded">
               @else
-                <img src="{{ asset('storage/images/user_no-image.png') }}" width="35" height="35" class="rounded">
+                <img src="{{ Storage::disk('s3')->url('user_no-image.png') }}" width="35" height="35" class="rounded">
               @endif
                 <span class="caret"></span>
             </a>

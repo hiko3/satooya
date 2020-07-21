@@ -4,9 +4,9 @@
     <div class="search-wrap p-3 d-sm-flex">
       <div class="mx-3 d-flex flex-column">
         @if ($user->avatar)
-          <img src="{{ asset('storage/images/'.$user->avatar) }}" class="rounded" width="100" height="100">
+          <img src="{{ $user->avatar }}" class="rounded" width="100" height="100">
         @else
-          <img src="{{ asset('storage/images/user_no-image.png') }}" width="100" height="100" class="rounded">
+          <img src="{{ Storage::disk('s3')->url('user_no-image.png') }}" width="100" height="100" class="rounded">
         @endif
         <div class="my-3 d-flex flex-column">
           <span class="text-secondary">{{ $user->name }}</span>
@@ -14,7 +14,9 @@
       </div>
       <div class="mx-3 mb-3 d-flex flex-column">
         <div class="d-flex">
-          <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">プロフィールを編集する</a>
+          @if ($user->id === Auth::id())
+            <a href="{{ route('user.edit', $user->id) }}" class="btn btn-primary">ユーザー情報を編集する</a>  
+          @endif
         </div>
         <div class="d-flex">
           <span class="mt-2">{{ $user->introduction }}</span>
@@ -33,10 +35,10 @@
     <div class="items-wrap">
       <div class="row">
         @foreach ($posts as $post)
-        <div class="col-md-4">
+        <div class="col-md-4 col-lg-3">
           <div class="card mb-4 shadow-sm">
             @if (!empty($post->image))
-              <img class="card-img-top" src="{{ asset('storage/images/'.$post->image) }}" alt="Card image cap" width="250" height="200">  
+              <img class="card-img-top" src="{{ $post->image }}" alt="Card image cap" width="250" height="200">  
             @endif
             <div class="card-body"> 
               <h5 class="card-title">{{ Str::limit($post->title, 20) }}</h5>

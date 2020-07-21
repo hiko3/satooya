@@ -93,8 +93,13 @@ class PostController extends Controller
         $inputs = $request->all();
         $inputs['user_id'] = Auth::id();
         $inputs['recruit_status'] = '里親募集中';
-        $inputs['image'] = $request->file('image')->hashName();
-        $request->file('image')->store('/public/images');
+        if (app()->isLocal()) {
+          $path = $request->file('image')->store('/public/images');
+          $inputs['image'] = Storage::url($path);
+        } else {
+          $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
+          $inputs['image'] = Storage::disk('s3')->url($path);
+        }
         $post = $this->post->create($inputs);
         $post->prefectures()->attach($request->input('prefecture_id'));
         return redirect()->route('post.index')->with([
@@ -147,10 +152,10 @@ class PostController extends Controller
         $inputs['user_id'] = Auth::id();
         if (!is_null($request->file('image'))) {
           if (app()->isLocal()) {
-            $request->file('image')->store('/public/images');
-            $inputs['image'] = $request->file('image')->hashName();
+            $path = $request->file('image')->store('/public/images');
+            $inputs['image'] = Storage::url($path);
           } else {
-            $path = Storage::disk('s3')->put('/', $request->file('image'), 'public');
+            $path = Storage::disk('s3')->putFile('/', $request->file('image'), 'public');
             $inputs['image'] = Storage::disk('s3')->url($path);
           }
         }
