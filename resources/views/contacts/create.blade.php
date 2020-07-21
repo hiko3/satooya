@@ -5,7 +5,7 @@
     <form method="POST" action="{{ route('contact.confirm') }}">
     @csrf
     @if ($user->avatar)
-      <h2>以下の内容を掲載者 <img src="{{ $user->avatar }}">{{ $user->name }}さんに送信します</h2>  
+      <h2>以下の内容を掲載者 <img src="{{ $user->avatar }}" width="30" height="30">{{ $user->name }}さんに送信します</h2>  
     @else
       <h2>以下の内容を掲載者 <img src="{{ Storage::disk('s3')->url('user_no-image.png') }}" width="30" height="30">{{ $user->name }}さんに送信します</h2> 
     @endif
